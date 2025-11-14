@@ -49,7 +49,8 @@
   </head>
   <body>
 
-  <style>
+
+    <style>
 /* -------------------- Reset -------------------- */
 * {
   margin: 0;
@@ -139,32 +140,42 @@ body {
   color: #000;
 }
 
-/* -------------------- HERO FULL SCREEN IMAGE ONLY -------------------- */
+/* -------------------- HERO SLIDER -------------------- */
 .hero {
   width: 100%;
-  height: 100vh;
-  background: 
-      linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.35)),
-      url('Hero Desktop.webp') center center/cover no-repeat; /* Desktop */
+  height: 600px;
   position: relative;
+  overflow: hidden;
 }
 
-/* ✅ Switch Image on Mobile */
-@media (max-width: 768px) {
+.slider {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: transform 1s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  background-size: cover;        /* DESKTOP = COVER */
+  background-position: center;
+}
+
+/* ------------ MOBILE: SHOW FULL IMAGE CLEANLY ------------ */
+@media (max-width: 600px) {
+  .slide {
+    background-size: contain !important;   /* FULL IMAGE SHOWN */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #000; /* Adds premium black bg */
+  }
   .hero {
-    background:
-      linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.35)),
-      url('Hero Mobile.webp') center center/cover no-repeat;
-    height: 100vh;
+    height: 20vh; /* Perfect mobile height */
   }
 }
 
-/* Hide Hero Text Container (Because we don’t need text) */
-.hero-content {
-  display: none;
-}
-
-/* Overlay container for text + button */
+/* Overlay */
 .hero-overlay-content {
   position: absolute;
   width: 100%;
@@ -173,27 +184,12 @@ body {
   left: 0;
   z-index: 5;
   display: flex;
-  flex-direction: column;
-  justify-content: center; /* text stays center vertically */
-  align-items: center;
-  pointer-events: none; /* allows hero click if needed */
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 40px;
 }
 
-.hero-overlay-content h1 {
-  pointer-events: auto;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 4rem);
-  color: white;
-  text-align: center;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-}
-
-/* Shared button styling */
 .hero-overlay-content .cta {
-  pointer-events: auto;
-  display: inline-block;
   background: #ffffff;
   color: #000;
   text-decoration: none;
@@ -204,43 +200,42 @@ body {
   transition: 0.3s;
   box-shadow: 0 6px 25px rgba(0,0,0,0.4);
 }
-
-/* ---------- POSITIONING ---------- */
-
-/* Desktop → Button bottom-right */
-@media (min-width: 769px) {
-  .hero-overlay-content {
-    align-items: flex-start;
-    justify-content: center;
-    padding-left: 8%;
-  }
-
-  .hero-overlay-content .cta {
-    position: absolute;
-    bottom: 60px;
-    right: 80px;
-  }
+.hero-overlay-content .cta:hover {
+  background: #d4af37;
+  color: #fff;
 }
 
-/* Mobile → Center bottom */
+/* Arrow Buttons (Desktop Only) */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.7);
+  border: none;
+  color: #000;
+  font-size: 18px;
+  padding: 10px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+.arrow:hover {
+  background: #d4af37;
+  color: #fff;
+}
+.arrow.left { left: 20px; }
+.arrow.right { right: 20px; }
+
+/* Hide Arrows on Mobile */
 @media (max-width: 768px) {
-  .hero-overlay-content {
-    justify-content: flex-end; /* pushes content near bottom */
-    padding-bottom: 30px;
-  }
-
-  .hero-overlay-content h1 {
-    margin-bottom: 30px;
-  }
-
+  .arrow { display: none; }
   .hero-overlay-content .cta {
-    position: relative;
-    right: 0;
-    bottom: -25%;
-    text-align: center;
+    font-size: 0.9rem;
+    padding: 12px 28px;
   }
 }
-
 
 /* -------------------- Menu Responsive -------------------- */
 @media (max-width: 768px) {
@@ -271,7 +266,7 @@ body {
     <a href="tel:+917981655199"><i class="fas fa-phone"></i></a>
   </div>
   <div class="location">
-    <a href="https://maps.app.goo.gl/Mh7xL60pY64htmlLM" target="_blank">MANJEERA, HYDERABAD</a>
+    <a href="https://share.google/vH4rRGTLVm3FDz1uC" target="_blank">MANJEERA, HYDERABAD</a>
   </div>
 </div>
 
@@ -290,27 +285,79 @@ body {
   </nav>
 </div>
 
-<!-- HERO IMAGE -->
-<section class="hero"></section>
+<!-- HERO SLIDER -->
+<section class="hero" id="hero">
+  
 
-<div class="hero-overlay-content">
-  <a href="https://wa.me/917981655199?text=Hi%20I'm%20Interested%20in%20%20Membership%20offers" class="cta">BOOK NOW</a>
-</div>
+  <div class="slider" id="slider">
+    <div class="slide" style="background-image: url('7.jpg');"></div>
+    <div class="slide" style="background-image: url('6.jpg');"></div>
+    <div class="slide" style="background-image: url('5.jpg');"></div>
+    <div class="slide" style="background-image: url('4.jpg');"></div>
+  </div>
 
+  <!-- Desktop Arrows -->
+  <button class="arrow left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+  <button class="arrow right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+</section>
 
-
-
-
+<!-- JS Slider -->
 <script>
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
-menuToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-});
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+let index = 0;
+const slides = document.querySelectorAll('.slide');
+const slider = document.getElementById('slider');
+const total = slides.length;
+let autoSlide;
+
+function showNextSlide() {
+  index = (index + 1) % total;
+  updateSlide();
 }
+function showPrevSlide() {
+  index = (index - 1 + total) % total;
+  updateSlide();
+}
+function updateSlide() {
+  slider.style.transform = `translateX(-${index * 100}%)`;
+}
+
+function startAutoSlide() {
+  autoSlide = setInterval(showNextSlide, 4000);
+}
+function stopAutoSlide() {
+  clearInterval(autoSlide);
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  showNextSlide(); stopAutoSlide(); startAutoSlide();
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  showPrevSlide(); stopAutoSlide(); startAutoSlide();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') showNextSlide();
+  else if (e.key === 'ArrowLeft') showPrevSlide();
+});
+
+// Swipe for mobile
+let startX = 0;
+let endX = 0;
+
+slider.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+slider.addEventListener('touchmove', (e) => {
+  endX = e.touches[0].clientX;
+});
+slider.addEventListener('touchend', () => {
+  if (startX - endX > 50) showNextSlide();
+  else if (endX - startX > 50) showPrevSlide();
+});
+
+startAutoSlide();
 </script>
+
 
 
 
@@ -924,7 +971,6 @@ document.querySelectorAll(".category-panel").forEach(panel => {
 
 
 
-
 <section class="price-gallery" aria-label="Price gallery">
   <div class="gallery-header">
     <h2>GALLERY</h2>
@@ -1497,8 +1543,8 @@ document.getElementById('bookingFormElement').addEventListener('submit', functio
 
     <!-- Left -->
     <div class="tg-footer-left">
-      <h2 class="tg-footer-brand">TONI&GUY <br><span>MANJEERA</span></h2>
-      <p><i class="fas fa-map-marker-alt"></i> <a href="https://share.google/Mh7xL60pY64htmlLM" target="_blank">Manjeera, Hyderabad</a></p>
+      <h2 class="tg-footer-brand">TONI&GUY <br><span>MANJEERA PIPE LINE</span></h2>
+      <p><i class="fas fa-map-marker-alt"></i> <a href="https://share.google/Mh7xL60pY64htmlLM" target="_blank">Manjeera Pipeline, Hyderabad</a></p>
       <p><i class="fa-solid fa-phone"></i> <a href="tel:+917981655199">+91 79816 55199</a></p>
       <p><i class="fas fa-envelope"></i> <a href="mailto:manjeera@toniandguy.in">manjeera@toniandguy.in</a></p>
       <p><i class="fas fa-clock"></i> 09:00 AM – 09:00 PM (All Days)</p>

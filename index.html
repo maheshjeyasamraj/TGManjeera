@@ -49,8 +49,7 @@
   </head>
   <body>
 
-
-    <style>
+<style>
 /* -------------------- Reset -------------------- */
 * {
   margin: 0;
@@ -143,7 +142,8 @@ body {
 /* -------------------- HERO SLIDER -------------------- */
 .hero {
   width: 100%;
-  height: 600px;
+  height: 428px; /* Facebook Ad Ratio */
+  max-height: 428px;
   position: relative;
   overflow: hidden;
 }
@@ -155,54 +155,26 @@ body {
   transition: transform 1s ease-in-out;
 }
 
+/* DESKTOP IMAGE — EXACT FACEBOOK AD RATIO */
 .slide {
   min-width: 100%;
   height: 100%;
-  background-size: cover;        /* DESKTOP = COVER */
+  background-size: 1450px 430px; /* Exact FB Ad Size */
+  background-repeat: no-repeat;
   background-position: center;
 }
 
-/* ------------ MOBILE: SHOW FULL IMAGE CLEANLY ------------ */
+/* ------------ MOBILE VERSION (NO CHANGE) ------------ */
 @media (max-width: 600px) {
   .slide {
-    background-size: contain !important;   /* FULL IMAGE SHOWN */
+    background-size: contain !important;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: #000; /* Adds premium black bg */
+    background-color: #000;
   }
   .hero {
-    height: 20vh; /* Perfect mobile height */
+    height: 20vh;
   }
-}
-
-/* Overlay */
-.hero-overlay-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 40px;
-}
-
-.hero-overlay-content .cta {
-  background: #ffffff;
-  color: #000;
-  text-decoration: none;
-  padding: 14px 38px;
-  border-radius: 50px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  transition: 0.3s;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
-}
-.hero-overlay-content .cta:hover {
-  background: #d4af37;
-  color: #fff;
 }
 
 /* Arrow Buttons (Desktop Only) */
@@ -231,10 +203,6 @@ body {
 /* Hide Arrows on Mobile */
 @media (max-width: 768px) {
   .arrow { display: none; }
-  .hero-overlay-content .cta {
-    font-size: 0.9rem;
-    padding: 12px 28px;
-  }
 }
 
 /* -------------------- Menu Responsive -------------------- */
@@ -287,13 +255,11 @@ body {
 
 <!-- HERO SLIDER -->
 <section class="hero" id="hero">
-  
-
   <div class="slider" id="slider">
-    <div class="slide" style="background-image: url('7.jpg');"></div>
-    <div class="slide" style="background-image: url('6.jpg');"></div>
-    <div class="slide" style="background-image: url('5.jpg');"></div>
-    <div class="slide" style="background-image: url('4.jpg');"></div>
+    <div class="slide" style="background-image: url('1.webp');"></div>
+    <div class="slide" style="background-image: url('2.webp');"></div>
+    <div class="slide" style="background-image: url('3.webp');"></div>
+    <div class="slide" style="background-image: url('4.webp');"></div>
   </div>
 
   <!-- Desktop Arrows -->
@@ -357,7 +323,6 @@ slider.addEventListener('touchend', () => {
 
 startAutoSlide();
 </script>
-
 
 
 
@@ -781,6 +746,10 @@ document.querySelectorAll(".category-panel").forEach(panel => {
 </script>
 
 
+
+
+
+
 <!-- ⭐ BRIDAL BEAUTY SECTION -->
 <section id="bridal" class="bridal-section">
   <div class="bridal-container">
@@ -792,7 +761,7 @@ document.querySelectorAll(".category-panel").forEach(panel => {
         <img src="bridal2.webp" alt="Bridal Look 2" />
         <img src="bridal3.webp" alt="Bridal Look 3" />
         <img src="bridal4.webp" alt="Bridal Look 4" />
-        <img src="Bridal5.webp" alt="Bridal Look 5" />
+        <img src="bridal5.webp" alt="Bridal Look 5" />
       </div>
     </div>
 
@@ -800,17 +769,20 @@ document.querySelectorAll(".category-panel").forEach(panel => {
     <div class="bridal-content">
       <h2>Bridal Beauty Perfected</h2>
       <p>
-        Book your wedding consultation today and let our international stylists craft your dream bridal look
+        Book your wedding consultation today and let our international stylists craft your dream bridal look —
         from elegant updos and flawless makeup to radiant hair treatments tailored just for you.
       </p>
       <a class="bridal-btn" href="https://wa.me/917981655199?text=Interested%20in%20Gold%20Membership" 
-         target="_blank" rel="noopener" aria-label="Book now on WhatsApp">
+         target="_blank" rel="noopener">
         BOOK NOW
       </a>
     </div>
 
   </div>
 </section>
+
+
+
 
   
   <!-- ✅ Section: Hair Elegance Refined -->

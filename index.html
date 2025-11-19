@@ -49,7 +49,8 @@
   </head>
   <body>
 
-<style>
+
+    <style>
 /* -------------------- Reset -------------------- */
 * {
   margin: 0;
@@ -142,38 +143,60 @@ body {
 /* -------------------- HERO SLIDER -------------------- */
 .hero {
   width: 100%;
-  height: 428px; /* Facebook Ad Ratio */
+  height: 428px; /* Desktop Facebook Ad */
   max-height: 428px;
   position: relative;
   overflow: hidden;
 }
 
-.slider {
+/* DESKTOP SLIDER WRAPPER */
+.slider-desktop {
   width: 100%;
   height: 100%;
   display: flex;
   transition: transform 1s ease-in-out;
 }
 
-/* DESKTOP IMAGE — EXACT FACEBOOK AD RATIO */
-.slide {
+/* MOBILE SLIDER WRAPPER */
+.slider-mobile {
+  width: 100%;
+  height: 100%;
+  display: none;
+  transition: transform 1s ease-in-out;
+}
+
+/* DESKTOP IMAGES (1450×430) */
+.slide-desktop {
   min-width: 100%;
   height: 100%;
-  background-size: 1450px 430px; /* Exact FB Ad Size */
+  background-size: 1600px 430px;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-/* ------------ MOBILE VERSION (NO CHANGE) ------------ */
+/* MOBILE IMAGES — INSTAGRAM REELS SIZE 9:16 */
+.slide-mobile {
+  min-width: 100%;
+  height: 100%;
+  aspect-ratio: 9/16;
+  background-size: 92%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* -------- SHOW MOBILE SLIDER ON MOBILE -------- */
 @media (max-width: 600px) {
-  .slide {
-    background-size: contain !important;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #000;
-  }
   .hero {
-    height: 20vh;
+    height: 75vh !important;
+    max-height: 75vh !important;
+  }
+
+  .slider-desktop {
+    display: none !important;
+  }
+
+  .slider-mobile {
+    display: flex !important;
   }
 }
 
@@ -255,11 +278,21 @@ body {
 
 <!-- HERO SLIDER -->
 <section class="hero" id="hero">
-  <div class="slider" id="slider">
-    <div class="slide" style="background-image: url('1.webp');"></div>
-    <div class="slide" style="background-image: url('2.webp');"></div>
-    <div class="slide" style="background-image: url('3.webp');"></div>
-    <div class="slide" style="background-image: url('4.webp');"></div>
+
+  <!-- DESKTOP SLIDER -->
+  <div class="slider-desktop" id="sliderDesktop">
+    <div class="slide-desktop" style="background-image: url('1.webp');"></div>
+    <div class="slide-desktop" style="background-image: url('2.webp');"></div>
+    <div class="slide-desktop" style="background-image: url('3.webp');"></div>
+    <div class="slide-desktop" style="background-image: url('4.webp');"></div>
+  </div>
+
+  <!-- MOBILE SLIDER -->
+  <div class="slider-mobile" id="sliderMobile">
+    <div class="slide-mobile" style="background-image: url('m1.webp');"></div>
+    <div class="slide-mobile" style="background-image: url('m2.webp');"></div>
+    <div class="slide-mobile" style="background-image: url('m3.webp');"></div>
+    <div class="slide-mobile" style="background-image: url('m4.webp');"></div>
   </div>
 
   <!-- Desktop Arrows -->
@@ -270,21 +303,45 @@ body {
 <!-- JS Slider -->
 <script>
 let index = 0;
-const slides = document.querySelectorAll('.slide');
-const slider = document.getElementById('slider');
-const total = slides.length;
+
+const desktopSlides = document.querySelectorAll('.slide-desktop');
+const mobileSlides = document.querySelectorAll('.slide-mobile');
+
+const sliderDesktop = document.getElementById('sliderDesktop');
+const sliderMobile = document.getElementById('sliderMobile');
+
+const totalDesktop = desktopSlides.length;
+const totalMobile = mobileSlides.length;
+
 let autoSlide;
 
+/* CHECK IF MOBILE */
+function isMobile() {
+  return window.innerWidth <= 600;
+}
+
 function showNextSlide() {
-  index = (index + 1) % total;
+  index++;
+  if (isMobile()) index %= totalMobile;
+  else index %= totalDesktop;
   updateSlide();
 }
+
 function showPrevSlide() {
-  index = (index - 1 + total) % total;
+  index--;
+  if (isMobile()) index = (index + totalMobile) % totalMobile;
+  else index = (index + totalDesktop) % totalDesktop;
   updateSlide();
 }
+
 function updateSlide() {
-  slider.style.transform = `translateX(-${index * 100}%)`;
+  if (isMobile()) {
+    sliderDesktop.style.transform = "translateX(0)";
+    sliderMobile.style.transform = `translateX(-${index * 100}%)`;
+  } else {
+    sliderMobile.style.transform = "translateX(0)";
+    sliderDesktop.style.transform = `translateX(-${index * 100}%)`;
+  }
 }
 
 function startAutoSlide() {
@@ -301,29 +358,23 @@ document.getElementById('prevBtn').addEventListener('click', () => {
   showPrevSlide(); stopAutoSlide(); startAutoSlide();
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') showNextSlide();
-  else if (e.key === 'ArrowLeft') showPrevSlide();
-});
-
-// Swipe for mobile
+/* Touch swipe */
 let startX = 0;
 let endX = 0;
 
-slider.addEventListener('touchstart', (e) => {
+document.querySelector('.hero').addEventListener('touchstart', (e) => {
   startX = e.touches[0].clientX;
 });
-slider.addEventListener('touchmove', (e) => {
+document.querySelector('.hero').addEventListener('touchmove', (e) => {
   endX = e.touches[0].clientX;
 });
-slider.addEventListener('touchend', () => {
+document.querySelector('.hero').addEventListener('touchend', () => {
   if (startX - endX > 50) showNextSlide();
   else if (endX - startX > 50) showPrevSlide();
 });
 
 startAutoSlide();
 </script>
-
 
 
 
